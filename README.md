@@ -24,4 +24,5 @@ python manage.py migrate
 python manage.py test
 ```
 Below is an example of **`sample.csv`** file with 2 vaild data and 2 invalid data.
+on root dir. there is a folder data **`response_output.json`** as response data or result
 
