@@ -3,6 +3,8 @@ from django.core.files.uploadedfile import SimpleUploadedFile
 from rest_framework.test import APIClient
 from rest_framework import status
 from .models import User
+from django.urls import reverse
+from django.core.cache import cache
 
 
 class CSVUploadTestCase(TestCase):
@@ -46,3 +48,22 @@ class CSVUploadTestCase(TestCase):
         for error in errors:
             self.assertIn("user with this email already exists.",
                           str(error.get("errorss", "")))
+
+    # def test_rate_limit(self):
+    #     url = reverse('request_endpoint')  
+
+    #     # Simulate 100 requests
+    #     for _ in range(100):
+    #         response = self.client.get(url)
+    #         self.assertEqual(response.status_code, 200)
+
+    #     response = self.client.get(url)
+    #     self.assertEqual(response.status_code, 429)
+    #     self.assertIn('Retry-After', response.headers)
+
+    # def test_rate_limit_headers(self):
+    #     url = reverse('request_endpoint')
+
+    #     response = self.client.get(url)
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertIn('X-Ratelimit-Remaining', response.headers)

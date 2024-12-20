@@ -1,3 +1,4 @@
+from django.http import JsonResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -44,3 +45,10 @@ class CreateCSVdataView(APIView):
             "rejected_records": rejected_records,
             "errors": errors
         }, status=status.HTTP_200_OK)
+
+
+def request_endpoint(request):
+    """
+    A simple view that returns a JSON response.
+    """
+    return JsonResponse({'message': 'Request successful'})
