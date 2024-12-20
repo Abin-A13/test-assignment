@@ -1,3 +1,7 @@
+import json
+import os
+from django.core.files.storage import FileSystemStorage
+from django.conf import settings
 from django.http import JsonResponse
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -5,7 +9,6 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework import status
 
 from api.serializers import UserSerializer
-from .models import User
 from .utils import parse_csv_file
 
 
@@ -40,11 +43,27 @@ class CreateCSVdataView(APIView):
                 errors.append({"row": data_list, "errorss": serializer.errors})
                 rejected_records += 1
 
-        return Response({
+        response_data = {
             "saved_records": saved_records,
             "rejected_records": rejected_records,
             "errors": errors
-        }, status=status.HTTP_200_OK)
+        }
+
+        # Use Django's FileSystemStorage to handle file creation
+        fs = FileSystemStorage(
+            location=os.path.join(settings.BASE_DIR, 'data'))
+
+        # Ensure the directory exists
+        directory = fs.location
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+
+        # Save the response data to a JSON file
+        file_path = os.path.join(directory, 'response_output.json')
+        with open(file_path, 'w') as json_file:
+            json.dump(response_data, json_file, indent=4)
+
+        return Response(response_data, status=status.HTTP_200_OK)
 
 
 def request_endpoint(request):

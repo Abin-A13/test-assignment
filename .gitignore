@@ -10,6 +10,8 @@ db.sqlite3
 *.pyc
 *.pyo
 
+# data
+*.json
 
 # Virtualenv
 venv/
