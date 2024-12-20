@@ -5,8 +5,9 @@
 __pycache__
 
 # Django stuff:
+migrations
 *.log
-db.sqlite3
+db.sqlit    e3
 *.pyc
 *.pyo
 
